@@ -1,6 +1,8 @@
-const clog   = console.log
-const cerr   = console.error
-const select = (selector) => document.querySelector(selector)
+const clog                  = console.log
+const cerr                  = console.error
+const select                = (selector) => document.querySelector(selector)
+const ERROR_MESSAGE_TIMEOUT = 3000
+
 
 function spawnTemplate(template_selector, wrapperElement="div", className="", parent=document.body) {
   const templateFragment  = document.importNode(select(template_selector).content, true) // the true is SOOOO important!
@@ -22,7 +24,7 @@ class Book {
   constructor(title="example title", author="example author") {
 
     if (Book.book_list . has(title)) {
-      cerr(`book ${title} exists already!`)
+      spawnError('book duplicate', `book "${title}" exists already!`)
       return
     }
 
@@ -37,7 +39,6 @@ class Book {
   
     bookDiv . querySelector('.book_delete') . addEventListener('click', e => {
       this.removeBook()
-      cerr(`removed book: ${this.title}, is the corresponding div still there ?`)
     })
 
     // filling the div with data
@@ -65,14 +66,27 @@ class Book {
 
 
 const book_add_form = select('#book_add_form')
+
 book_add_form. addEventListener('submit', e => {
   e.preventDefault() // otherwise the page is gonna be reloaded
 
   const title_input  = book_add_form.querySelector('.book_title') . value . trim()
   const author_input = book_add_form.querySelector('.book_author'). value . trim()
 
-  if (title_input === '' || author_input === '') { cerr(`empty field!`); return }
+  if (title_input  === '') { spawnError('missing data', 'empty field title' ); return }
+  if (author_input === '') { spawnError('missing data', 'empty field author'); return }
 
   new Book(title_input, author_input)
   Book.renderBooks()                 // adding a book triggers re-rendering all the books
 })
+
+
+function spawnError(title='[error title]', description='[error description]') {
+  const errorDiv = spawnTemplate('#template_error_message', 'div', 'error_message');
+  errorDiv.querySelector('.title')      .innerText = title
+  errorDiv.querySelector('.description').innerText = description
+
+  setTimeout(() => {
+    errorDiv.remove()
+  }, ERROR_MESSAGE_TIMEOUT);
+}
