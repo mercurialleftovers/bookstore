@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+<body>
+  <template id="template_library"></template> 
+  <!-- we chose template instead of div because we need to delete it every now and then and re-spawn it -->
+
+  <template id="template_book_view">
+    <label for="book_title" >Title:</label>
+    <span   class="book_title" >[here title]</span>
+    <label for="book_author">Author:</label>
+    <span   class="book_author">[here author]</span>
+    <button class="book_delete">Delete Book</button>
+  </template>
+  
+  
+  <template id="template_book_form">
+    <form action="#">
+      <label for="book_title">Title:</label>
+      <label for="book_author">Title:</label>
+      <input type="submit" value="add book" />
+    </form>
+  </template>
+  
+</body>
+<script src="script.js"></script>
+</html>
