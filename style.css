@@ -11,3 +11,16 @@
     margin        : 1rem;
     padding       : 1rem;
 }
+
+#book_add_form {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    border: 1px solid black;
+    label {
+        padding: .3rem;
+    }
+    input {
+        padding: .5rem;
+    }
+}

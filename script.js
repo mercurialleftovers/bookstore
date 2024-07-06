@@ -9,9 +9,8 @@ function spawnTemplate(template_selector, wrapperElement="div", className="", pa
   wrapper.appendChild(templateFragment)
   wrapper.addEventListener
 
-  // dbg
-  // endbg
   parent.appendChild(wrapper)
+  
   return wrapper
 }
 
@@ -53,7 +52,7 @@ class Book {
 
   static renderBooks() {
     if (Book.library) {
-      Book.library.remove()  // removing old one
+      Book.library.remove()          // removing old one
     }
 
     Book.library = spawnTemplate('#template_library', 'div', 'library')
@@ -64,7 +63,16 @@ class Book {
   }
 }
 
-new Book('Catcher', 'salinger') // adding a book example
-new Book()
 
-Book.renderBooks()
+const book_add_form = select('#book_add_form')
+book_add_form. addEventListener('submit', e => {
+  e.preventDefault() // otherwise the page is gonna be reloaded
+
+  const title_input  = book_add_form.querySelector('.book_title') . value . trim()
+  const author_input = book_add_form.querySelector('.book_author'). value . trim()
+
+  if (title_input === '' || author_input === '') { cerr(`empty field!`); return }
+
+  new Book(title_input, author_input)
+  Book.renderBooks()                 // adding a book triggers re-rendering all the books
+})
